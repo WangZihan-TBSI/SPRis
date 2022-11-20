@@ -24,9 +24,9 @@ def pre_processing(X_train, X_test, logTrnasform):
 
 def main():
     # import data
-    train_data = pd.read_csv('./Stroke_prediction_system_Data/Prf_feature_train.csv')
-    train_label = pd.read_csv('./Stroke_prediction_system_Data/Prf_feature_test.csv')
-    Stroke_label_train = pd.read_csv('./Stroke_prediction_system_Data/Stroke_label_train.csv')
+    train_data = pd.read_csv('/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Stroke_prediction_system_Data/Prf_feature_train.csv')
+    train_label = pd.read_csv('/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Stroke_prediction_system_Data/Prf_feature_test.csv')
+    Stroke_label_train = pd.read_csv('/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Stroke_prediction_system_Data/Stroke_label_train.csv')
     print("Load data complete")
 
 if __name__ == '__main__':
