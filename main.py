@@ -28,8 +28,6 @@ def import_data():
         '/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Prf_feature_test.csv')
     train_label = pd.read_csv(
         '/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Stroke_label_train.csv')
-    print("Data Loading Complete")
-    # all_features = list(train_data.columns)
     # Select relavent features
     selected_features = pd.read_csv('./Feature_selected.csv')
     # 筛选使用数据
@@ -39,6 +37,7 @@ def import_data():
     X_test = X_test[X_train['DISPCODE'] == 1100]
     del X_test['DISPCODE']
     del X_train['DISPCODE']
+    print("Data Loading Complete")
     return X_train, train_label, X_test
 
 
