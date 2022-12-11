@@ -31,8 +31,7 @@ def import_data():
     print("Data Loading Complete")
     # all_features = list(train_data.columns)
     # Select relavent features
-    selected_features = pd.read_csv(
-        '/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Feature_selected.csv')
+    selected_features = pd.read_csv('./Feature_selected.csv')
     # 筛选使用数据
     X_train = train_data[selected_features['Feature']]
     X_test = train_data[selected_features['Feature']]
