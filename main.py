@@ -21,13 +21,32 @@ def pre_processing(X_train, X_test, logTrnasform):
     return X_train, X_test
 
 
+def import_data():
+    train_data = pd.read_csv(
+        '/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Prf_feature_train.csv')
+    test_data = pd.read_csv(
+        '/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Prf_feature_test.csv')
+    train_label = pd.read_csv(
+        '/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Stroke_label_train.csv')
+    print("Data Loading Complete")
+    # all_features = list(train_data.columns)
+    # Select relavent features
+    selected_features = pd.read_csv(
+        '/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Feature_selected.csv')
+    # 筛选使用数据
+    X_train = train_data[selected_features['Feature']]
+    X_test = train_data[selected_features['Feature']]
+    X_train = X_train[X_train['DISPCODE'] == 1100]
+    X_test = X_test[X_train['DISPCODE'] == 1100]
+    del X_test['DISPCODE']
+    del X_train['DISPCODE']
+    return X_train, train_label, X_test
+
 
 def main():
     # import data
-    train_data = pd.read_csv('/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Stroke_prediction_system_Data/Prf_feature_train.csv')
-    train_label = pd.read_csv('/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Stroke_prediction_system_Data/Prf_feature_test.csv')
-    Stroke_label_train = pd.read_csv('/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Stroke_prediction_system_Data/Stroke_label_train.csv')
-    print("Load data complete")
+    X_train, y_train, X_test = import_data()
+
 
 if __name__ == '__main__':
     main()
