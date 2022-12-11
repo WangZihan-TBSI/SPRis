@@ -34,7 +34,7 @@ def import_data():
     X_train = train_data[selected_features['Feature']]
     X_test = train_data[selected_features['Feature']]
     X_train = X_train[X_train['DISPCODE'] == 1100]
-    X_test = X_test[X_train['DISPCODE'] == 1100]
+    X_test = X_test[X_test['DISPCODE'] == 1100]
     del X_test['DISPCODE']
     del X_train['DISPCODE']
     print("Data Loading Complete")
