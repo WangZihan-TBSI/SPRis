@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, PowerTransformer
-
+import random
 
 def pre_processing(X_train, X_test, logTrnasform):
     pt = PowerTransformer()
@@ -21,7 +21,7 @@ def pre_processing(X_train, X_test, logTrnasform):
     return X_train, X_test
 
 
-def import_data():
+def import_original_data():
     train_data = pd.read_csv(
         '/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Prf_feature_train.csv')
     test_data = pd.read_csv(
@@ -30,20 +30,37 @@ def import_data():
         '/Users/zihan/Seafile/Learning/研究生课程/ML2022/Project/Stroke_prediction_system_Data/Stroke_label_train.csv')
     # Select relavent features
     selected_features = pd.read_csv('./Feature_selected.csv')
-    # 筛选使用数据
+    # 筛选所使用的数据
     X_train = train_data[selected_features['Feature']]
-    X_test = train_data[selected_features['Feature']]
+    X_test = test_data[selected_features['Feature']]
+    # 只保留有完整记录数据
+    y_train = train_label[X_train['DISPCODE'] == 1100]
     X_train = X_train[X_train['DISPCODE'] == 1100]
     X_test = X_test[X_test['DISPCODE'] == 1100]
+    # 删除数据记录完整度的栏目
     del X_test['DISPCODE']
     del X_train['DISPCODE']
     print("Data Loading Complete")
-    return X_train, train_label, X_test
+    # balance the training data
+    number_of_stroke_sample = np.sum(y_train['Stroke'] == 1)
+    X_train_stroke = X_train[y_train['Stroke'] == 1]
+    X_train_no_stroke = X_train[y_train['Stroke'] == 2]
+    X_train_no_stroke_random_selected = X_train_no_stroke.sample(number_of_stroke_sample)
+    X_train_balanced = X_train_stroke.append(X_train_no_stroke_random_selected)
+    y_train_stroke = y_train[y_train['Stroke'] == 1]
+    y_train_no_stroke = y_train_stroke.replace({'Stroke':{1:2}})
+    y_train_balanced = y_train_stroke.append(y_train_no_stroke)
+    # save the selected and balanced data
+    X_train_balanced.to_csv('train_X_balance.csv')
+    X_test.to_csv('test_X_sel.csv')
+    y_train_balanced.to_csv('train_y_balance.csv')
+    print("Data Balancing Complete")
+    return X_train_balanced, y_train_balanced, X_test
 
 
 def main():
-    # import data
-    X_train, y_train, X_test = import_data()
+    # import original data
+    X_train, y_train, X_test = import_original_data()
 
 
 if __name__ == '__main__':
