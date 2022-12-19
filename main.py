@@ -50,17 +50,28 @@ def import_original_data():
     y_train_stroke = y_train[y_train['Stroke'] == 1]
     y_train_no_stroke = y_train_stroke.replace({'Stroke':{1:2}})
     y_train_balanced = y_train_stroke.append(y_train_no_stroke)
+    del y_train_balanced['Unnamed: 0']
     # save the selected and balanced data
-    X_train_balanced.to_csv('train_X_balance.csv')
-    X_test.to_csv('test_X_sel.csv')
-    y_train_balanced.to_csv('train_y_balance.csv')
+    X_train_balanced.to_csv('./clean_data/train_X_balance.csv', index = False)
+    X_test.to_csv('./clean_data/test_X_sel.csv', index = False)
+    y_train_balanced.to_csv('./clean_data/train_y_balance.csv', index = False)
     print("Data Balancing Complete")
     return X_train_balanced, y_train_balanced, X_test
 
 
+def import_clean_data():
+    X_train = pd.read_csv('./clean_data/train_X_balance.csv')
+    y_train = pd.read_csv('./clean_data/train_y_balance.csv')
+    X_test = pd.read_csv('./clean_data/test_X_sel.csv')
+    # X_train = X_train.sort_values(by=['Unnamed: 0'])
+    # y_train = y_train.sort_values(by=['Unnamed: 0.1'])
+    return X_train, y_train, X_test
+
+
 def main():
-    # import original data
-    X_train, y_train, X_test = import_original_data()
+    # X_train, y_train, X_test = import_original_data() # import original data
+    X_train, y_train, X_test = import_clean_data()  # import clean data
+
 
 
 if __name__ == '__main__':
