@@ -101,10 +101,10 @@ def prediction_results(pred, y_test, name_of_classifier):
     plt.title(name_of_classifier)
     plt.show()
     precision = tp / (tp + fp)
-    recall = tp / (tp + fn)
+    sensitivity = tp / (tp + fn)
     f_score = float(2 * precision * recall) / float(precision + recall)
     accuracy = float(tp + tn) / float(tp + tn + fp + fn)
-    print("precision", precision, "\nrecall", recall, "\nf_score", f_score, "\naccuracy", accuracy)
+    print("precision", precision, "\nsensitivity", sensitivity, "\nF1_score", f_score, "\naccuracy", accuracy)
 
 
 def plot_ROC(FPR, TPR, title, area):
@@ -128,11 +128,11 @@ def main():
     # Drop features with >90% NaN
     X_train = X_train.dropna(axis='columns',thresh=0.1*X_train.shape[0])
     # fill the NaN with mean values
-    X_train_fill = X_train.fillna(X_train.mean())
+    X_train = X_train.fillna(X_train.mean())
     tree = DecisionTreeClassifier(criterion='gini', max_depth=4, random_state=1)
-    tree.fit(X_train_fill, y_train)
+    tree.fit(X_train, y_train)
     # print(X_train_fill.columns, tree.feature_importances_)
-    feature_importances = pd.concat([pd.DataFrame(X_train_fill.columns, columns=['features']),
+    feature_importances = pd.concat([pd.DataFrame(X_train.columns, columns=['features']),
                                      pd.DataFrame(tree.feature_importances_, columns=['importance'])], axis=1)
     feature_importances = feature_importances.sort_values(by='importance', ascending=False)
     top5features = feature_importances['features'][0:5]
